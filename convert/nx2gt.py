@@ -5,32 +5,40 @@ import graph_tool.all as gt
 
 from .infer import infer_type
 
-def nx2gt(G):
+def nx2gt(nxG, labelname="label"):
     """
     Converts networkx-graph to graph_tool graph
     
     :params:
         G : networkx graph object
+            The Graph that is to be converted
+        labelname: hashable, optional
+            The name of the vertex_property that the nodelabels should be stored in.
+            Defaults to 'label'.
 
     :returns:
         tuple(graph, node_labels)
     """
-    assert isinstance(G, (nx.Graph,nx.DiGraph)), "G not in implemented networkX-Graph type!"
+    assert isinstance(nxG, nx.Graph), "G not in implemented networkX-Graph type!"
 
-    directed = nx.is_directed(G)
-    B = gt.Graph(directed=directed)
-
+    directed = nx.is_directed(nxG)
+    gtG = gt.Graph(directed=directed)
 
     attrs = {}
-    attrs["name"] = B.new_vertex_property("string")
+    node_type = {type(n) for n in nxG}
+    if len(node_type) == 1:
+        node_type = infer_type(next(iter(nxG.nodes())))
+    else:
+        node_type = "string"
+    attrs[labelname] = gtG.new_vertex_property(node_type)
 
     nodes = {}
     node_property_type_assertion = defaultdict(set)
 
-    for nx_node, data in G.nodes(data=True):
+    for nx_node, data in nxG.nodes(data=True):
 
-        v = B.add_vertex()
-        attrs["name"][v] = nx_node
+        v = gtG.add_vertex()
+        attrs[labelname][v] = nx_node
         nodes[nx_node] = v
 
         for key, val in data.items():
@@ -42,18 +50,18 @@ def nx2gt(G):
                     types found: {node_property_type_assertion[key]}")
 
             if key not in attrs:
-                attrs[key] = B.new_vertex_property(infer_type(val))
+                attrs[key] = gtG.new_vertex_property(infer_type(val))
             
             attrs[key][v] = val
             
     for attr_name, attr_val in attrs.items():
-        B.vertex_properties[attr_name] = attr_val        
+        gtG.vertex_properties[attr_name] = attr_val        
 
     attrs = {}
     edge_property_assertion = defaultdict(set)
-    for u,v, data in G.edges(data=True):
+    for u,v, data in nxG.edges(data=True):
 
-        edge = B.add_edge(nodes[u], nodes[v])
+        edge = gtG.add_edge(nodes[u], nodes[v])
         for key, val in data.items():
             
             #Single Type assertion
@@ -63,18 +71,14 @@ def nx2gt(G):
                     types found: {edge_property_assertion[key]}")
             
             if key not in attrs:
-                attrs[key] = B.new_edge_property(infer_type(val))
+                attrs[key] = gtG.new_edge_property(infer_type(val))
             
             attrs[key][edge] = val
 
     for attr_key, attr_val in attrs.items():
-        B.edge_properties[attr_key] = attr_val 
+        gtG.edge_properties[attr_key] = attr_val 
 
-
-    print(f"Number of Nodes in new Graph: {sum(1 for _ in B.vertices())}")
-    print(f" -> in old Graph {len(G.nodes())}")
-
-    return B
+    return gtG
 
 
 
@@ -98,3 +102,4 @@ if __name__ == "__main__":
     print(g.list_properties())
     gt.graph_draw(g, vertex_text=g.vertex_properties["name"], vertex_font_size=18, output_size=(200, 200), output="graph.png")
     print(gt.betweenness(g)[0].get_array())
+    
