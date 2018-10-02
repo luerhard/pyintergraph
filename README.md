@@ -2,7 +2,7 @@
 Exchange Python-Graph-Objects between networkx, igraph and graph-tools
 
 # Usage
-import the Repository-folder as a pac
+import the Repository-folder as a package:
 
 ```
 import networkx as nx
