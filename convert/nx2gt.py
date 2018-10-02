@@ -1,5 +1,5 @@
-from .Graph import Graph
+from .Graph import InterGraph
 
-def nx2gt(nxG, labelname="label"):
-    G = Graph.from_networkX(nxG)
+def nx2gt(nxG, labelname=None):
+    G = InterGraph.from_networkX(nxG)
     return G.to_graph_tool(labelname=labelname)

@@ -1,6 +1,6 @@
-from .Graph import Graph
+from .Graph import InterGraph
 
 def gt2nx(gtG, labelname=None):
-    G = Graph.from_graph_tool(gtG, labelname=labelname)
+    G = InterGraph.from_graph_tool(gtG, labelname=labelname)
     labels = labelname != None
     return G.to_networkX(use_labels=labels)

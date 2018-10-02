@@ -2,7 +2,7 @@ from collections import defaultdict
 
 from .infer import infer_type
 
-class Graph:
+class InterGraph:
     """This defines a interchangeable format that can be read in by the 'from_'-classmethods
         and convert the interchangeable format the package formats with the 'to_'-methods
     """
