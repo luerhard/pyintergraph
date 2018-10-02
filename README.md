@@ -16,4 +16,5 @@ reversed_nx_graph = gt2nx(graph_tool_graph, use_labels=True)
 
 Graph = InterGraph.from_networkX(nx_graph)
 graph_tool_graph = Graph.to_graph_tool(labelname="node_label")
+reversed_nx_graph = Graph.to_networkX(use_labels=True)
 ```
