@@ -81,7 +81,63 @@ class InterGraph:
         edges = [(nodemap[u], nodemap[v]) for u, v in gt_edges]
 
         return cls(nodes, node_labels, node_attributes, edges, edge_attributes, is_directed)
+
     
+    @classmethod
+    def from_igraph(cls, iG):
+        """Converts igraph-Graph to Graph object
+        """
+        is_directed = iG.is_directed()
+        edges, edge_attributes = list(zip(*((e.tuple, e.attributes()) for e in iG.es())))
+        nodes, node_attributes = list(zip(*((n.index, n.attributes()) for n in iG.vs())))
+
+        node_labels = []
+        for node in node_attributes:
+            node_labels.append(node["name"])
+            del node["name"] 
+        
+        return cls(nodes, node_labels, node_attributes, edges, edge_attributes, is_directed)
+
+    def to_networkX(self, use_labels=True):
+        """
+        Converts Graph object to networkX Graph.
+
+        :params:
+            use_labels:bool, defaults to true
+                choose whether to use labels or indices as names for the nodes.
+                if no specific labels were read in, these to are equal.
+               
+        :returns:
+            networkX Graph, DiGraph, MultiGraph or MultiDiGraph
+        """
+        import networkx as nx
+                
+        #is multi?
+        is_multigraph = len(self.edges) > len(set(self.edges))
+        
+        #select appropriate networkX-Graph-Type
+        if self.is_directed and not is_multigraph:
+            nxG = nx.DiGraph()
+        elif not self.is_directed and not is_multigraph:
+            nxG = nx.Graph()
+        elif not self.is_directed and is_multigraph:
+            nxG = nx.MultiGraph()
+        else:
+            nxG = nx.MultiDiGraph()
+
+        if use_labels:
+            nodes = self.node_labels
+        else:
+            nodes = self.nodes
+
+        nxG.add_nodes_from(zip(nodes, self.node_attributes))
+        nxG.add_edges_from(self.edges)
+        for edge, edge_attr in zip(self.edges, self.edge_attributes):
+            u, v = edge
+            nxG.add_edge(u,v,**edge_attr)
+                        
+        return nxG
+
     def to_graph_tool(self, labelname=None):
         """Converts Graph object to graph-tool Graph.
 
@@ -153,43 +209,26 @@ class InterGraph:
 
         return gtG
 
-    def to_networkX(self, use_labels=True):
-        """
-        Converts Graph object to networkX Graph.
+    def to_igraph(self, use_labels=True):
+        import igraph as ig
 
-        :params:
-            use_labels:bool, defaults to true
-                choose whether to use labels or indices as names for the nodes.
-                if no specific labels were read in, these to are equal.
-               
-        :returns:
-            networkX Graph, DiGraph, MultiGraph or MultiDiGraph
-        """
-        import networkx as nx
-                
-        #is multi?
-        is_multigraph = len(self.edges) > len(set(self.edges))
-        
-        #select appropriate networkX-Graph-Type
-        if self.is_directed and not is_multigraph:
-            nxG = nx.DiGraph()
-        elif not self.is_directed and not is_multigraph:
-            nxG = nx.Graph()
-        elif not self.is_directed and is_multigraph:
-            nxG = nx.MultiGraph()
-        else:
-            nxG = nx.MultiDiGraph()
+        iG = ig.Graph(directed=self.is_directed)
 
         if use_labels:
-            nodes = self.node_labels
-        else:
-            nodes = self.nodes
+            nodemap = {node: node_label for node, node_label in zip(self.nodes, self.node_labels)}
 
-        nxG.add_nodes_from(zip(nodes, self.node_attributes))
-        nxG.add_edges_from(self.edges)
-        for edge, edge_attr in zip(self.edges, self.edge_attributes):
-            u, v = edge
-            for key, val in edge_attr.items():
-                nxG[u][v][key] = val
-                    
-        return nxG
+            for node, attr in zip(self.nodes, self.node_attributes):
+                iG.add_vertex(nodemap[node], **attr)
+            
+            for edge, attr in zip(self.edges, self.edge_attributes):
+                u,v = edge
+                iG.add_edge(nodemap[u], nodemap[v], **attr)
+        else:
+            for node, attr in zip(self.nodes, self.node_attributes):
+                iG.add_vertex(node, **attr)
+            
+            for edge, attr in zip(self.edges, self.edge_attributes):
+                u, v = edge
+                iG.add_edge(u, v, **attr)
+
+        return iG
