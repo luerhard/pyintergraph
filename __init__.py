@@ -1,4 +1,3 @@
-from .convert.gt2nx import gt2nx
-from .convert.nx2gt import nx2gt
+from .convert.funcs import *
 
 from .convert.Graph import InterGraph
