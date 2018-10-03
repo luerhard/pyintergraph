@@ -1,3 +1,3 @@
-from .convert.funcs import *
+from .intergraph.funcs import *
 
-from .convert.Graph import InterGraph
+from .intergraph.Graph import InterGraph

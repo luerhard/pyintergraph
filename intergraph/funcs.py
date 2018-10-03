@@ -23,4 +23,4 @@ def gt2igraph(gtG, labelname=None):
 
 def igraph2gt(iG, labelname=None):
     G = InterGraph.from_igraph(iG)
-    return G.to_igraph(use_labels=True)
+    return G.to_graph_tool(labelname=labelname)
