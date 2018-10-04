@@ -17,14 +17,13 @@ def gt_star(directed):
 
     return g
 
-def circular_graph(directed):
+def circular_graph(directed, with_labels):
     g = generation.circular_graph(25, 3, directed=directed)
-    label_property = g.new_vertex_property("string")
-
-    for i, v in enumerate(g.vertices(), 100):
-        label_property[v] = str(i)
-
-    g.vp["node_labels"] = label_property
+    if with_labels:
+        label_property = g.new_vertex_property("string")
+        for i, v in enumerate(g.vertices(), 100):
+            label_property[v] = str(i)
+        g.vp["node_labels"] = label_property
 
     return g
 
@@ -32,5 +31,7 @@ def circular_graph(directed):
 def gt_test_graphs():
     yield gt_star(directed=False)
     yield gt_star(directed=True)
-    yield circular_graph(directed=True)
-    yield circular_graph(directed=False)
+    yield circular_graph(directed=True, with_labels=True)
+    yield circular_graph(directed=False, with_labels=False)
+    yield circular_graph(directed=False, with_labels=True)
+    yield circular_graph(directed=False, with_labels=False)

@@ -15,3 +15,4 @@ def ig_star(directed):
 def igraph_test_graphs():
     yield ig_star(directed=False)
     yield ig_star(directed=True)
+    yield igraph.Graph.Tree(50,10)

@@ -127,7 +127,7 @@ class InterGraph:
         
         return cls(list(nodes), node_labels, node_attributes, list(edges), edge_attributes, is_directed)
 
-    def to_networkX(self, use_labels=True):
+    def to_networkX(self):
         """
         Converts Graph object to networkX Graph.
 
@@ -183,8 +183,6 @@ class InterGraph:
         nodes = {}
         node_property_type_assertion = defaultdict(set)
 
-        print(node_type)
-
         for nx_node, data in zip(self.nodes, self.node_attributes):
 
             v = gtG.add_vertex()
@@ -231,7 +229,7 @@ class InterGraph:
 
         return gtG
 
-    def to_igraph(self, use_labels=True):
+    def to_igraph(self):
         import igraph as ig
 
         iG = ig.Graph(directed=self.is_directed)
