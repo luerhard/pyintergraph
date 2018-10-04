@@ -70,9 +70,9 @@ class InterGraph:
 
         #create name-map for nodes
         if labelname:
-            nodemap = {v: label for v, label in zip(gtG.vertices(), gtG.vertex_properties[labelname])}
+            nodemap = {gtG.vertex(v): label for v, label in zip(gtG.vertices(), gtG.vertex_properties[labelname])}
             node_labels = [nodemap[node] for node in gt_nodes]
-            nodes = [gtG.vertex(i, use_index=False) for i in gt_nodes]
+            nodes = [int(gtG.vertex(i, use_index=False)) for i in gt_nodes]
         else:
             nodemap = {gtG.vertex(i, use_index=False): i for i in gtG.get_vertices()}
             node_labels = [nodemap[node] for node in gt_nodes]
@@ -216,13 +216,15 @@ class InterGraph:
 
         if use_labels:
             nodemap = {node: node_label for node, node_label in zip(self.nodes, self.node_labels)}
+            print(nodemap)
+            
 
             for node, attr in zip(self.nodes, self.node_attributes):
                 iG.add_vertex(nodemap[node], **attr)
             
             for edge, attr in zip(self.edges, self.edge_attributes):
                 u,v = edge
-                iG.add_edge(nodemap[u], nodemap[v], **attr)
+                iG.add_edge(u, v, **attr)
         else:
             for node, attr in zip(self.nodes, self.node_attributes):
                 iG.add_vertex(node, **attr)
