@@ -126,3 +126,30 @@ def test_gt2igraph(gt_graph):
         else:
             assert [(e.source(), e.target()) for e in gt_graph.edges()] == \
                     [e.tuple for e in ig_graph.es()]
+
+@pytest.mark.parametrize("nx_graph", nx_test_graphs())
+def test_round_robin_nx(nx_graph):
+    graph_tool_graph = pyintergraph.nx2gt(nx_graph, labelname="node_label")
+
+    igraph_graph = pyintergraph.gt2igraph(graph_tool_graph, labelname="node_label")
+
+    reversed_nx_graph = pyintergraph.igraph2nx(igraph_graph)
+
+    assert list(nx_graph.nodes(data=True)) == list(reversed_nx_graph.nodes(data=True))
+    assert list(nx_graph.nodes(data=True)) == list(reversed_nx_graph.nodes(data=True))
+    assert type(nx_graph) == type(reversed_nx_graph)
+
+@pytest.mark.parametrize("ig_graph", igraph_test_graphs())
+def test_round_robin_ig(ig_graph):
+
+    graph_tool_graph = pyintergraph.igraph2gt(ig_graph, labelname="somelabelname")
+
+    nx_graph = pyintergraph.gt2nx(graph_tool_graph, labelname="somelabelname")
+
+    reversed_ig_graph = pyintergraph.nx2igraph(nx_graph)
+
+    assert list(v.index for v in ig_graph.vs()) == list(v.index for v in reversed_ig_graph.vs())
+    assert list(e.tuple for e in ig_graph.es()) == list(e.tuple for e in reversed_ig_graph.es())
+    assert ig_graph.edge_attributes() == reversed_ig_graph.edge_attributes()
+    assert set(ig_graph.vertex_attributes()).add("name") == set(reversed_ig_graph.vertex_attributes()).add("name")
+    assert type(ig_graph) == type(reversed_ig_graph)
