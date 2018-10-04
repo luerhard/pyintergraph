@@ -124,6 +124,7 @@ class InterGraph:
                 del node_attrs["name"]
             else:
                 node_labels[node] = node 
+
         
         return cls(list(nodes), node_labels, node_attributes, list(edges), edge_attributes, is_directed)
 
