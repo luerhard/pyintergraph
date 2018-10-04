@@ -25,6 +25,10 @@ class InterGraph:
         :returns:
             Graph object
         """
+        import networkx as nx
+
+        if not isinstance(nxG, nx.Graph):
+            raise TypeError("nxG must be instance of nx.Graph oder subclasses thereof!")
         
         is_directed = nxG.is_directed()
 
@@ -48,6 +52,10 @@ class InterGraph:
         :returns:
             Graph object
         """
+        from graph_tool import Graph
+
+        if not isinstance(gtG, Graph):
+            raise TypeError("gtG must be an instance of graph_tool.Graph() !")
 
         is_directed = gtG.is_directed()
 
@@ -85,8 +93,13 @@ class InterGraph:
     
     @classmethod
     def from_igraph(cls, iG):
+        import igraph
         """Converts igraph-Graph to Graph object
         """
+
+        if not isinstance(iG, igraph.Graph):
+            raise TypeError("iG must be instance of igraph.Graph() !")
+
         is_directed = iG.is_directed()
         edges, edge_attributes = list(zip(*((e.tuple, e.attributes()) for e in iG.es())))
         nodes, node_attributes = list(zip(*((n.index, n.attributes()) for n in iG.vs())))
@@ -216,9 +229,7 @@ class InterGraph:
 
         if use_labels:
             nodemap = {node: node_label for node, node_label in zip(self.nodes, self.node_labels)}
-            print(nodemap)
-            
-
+         
             for node, attr in zip(self.nodes, self.node_attributes):
                 iG.add_vertex(nodemap[node], **attr)
             
