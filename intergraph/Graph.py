@@ -32,8 +32,8 @@ class InterGraph:
         
         is_directed = nxG.is_directed()
 
-        node_labels, node_attributes = list(zip(*nxG.nodes(data=True)))
-        nodes, _ = list(zip(*enumerate(node_labels)))
+        node_labels, node_attributes = zip(*nxG.nodes(data=True))
+        nodes, _ = zip(*enumerate(node_labels))
 
         u, v, edge_attributes = zip(*nxG.edges(data=True))
         edges = list(zip(u,v))
@@ -73,8 +73,8 @@ class InterGraph:
                     if not attr == labelname}
                 yield ((e.source(), e.target()), attrs)
 
-        gt_edges, edge_attributes = zip(*list(create_edges(gtG)))
-        gt_nodes, node_attributes = zip(*list(create_nodes(gtG)))
+        gt_edges, edge_attributes = zip(*create_edges(gtG))
+        gt_nodes, node_attributes = zip(*create_nodes(gtG))
 
         #create name-map for nodes
         if labelname:
@@ -101,8 +101,8 @@ class InterGraph:
             raise TypeError("iG must be instance of igraph.Graph() !")
 
         is_directed = iG.is_directed()
-        edges, edge_attributes = list(zip(*((e.tuple, e.attributes()) for e in iG.es())))
-        nodes, node_attributes = list(zip(*((n.index, n.attributes()) for n in iG.vs())))
+        edges, edge_attributes = zip(*((e.tuple, e.attributes()) for e in iG.es()))
+        nodes, node_attributes = zip(*((n.index, n.attributes()) for n in iG.vs()))
 
         node_labels = []
         for node in node_attributes:
@@ -147,7 +147,7 @@ class InterGraph:
         nxG.add_edges_from(self.edges)
         for edge, edge_attr in zip(self.edges, self.edge_attributes):
             u, v = edge
-            nxG.add_edge(u,v,**edge_attr)
+            nxG.add_edge(u, v, **edge_attr)
                         
         return nxG
 
@@ -197,7 +197,7 @@ class InterGraph:
                 attrs[key][v] = val
                 
         for attr_name, attr_val in attrs.items():
-            gtG.vertex_properties[attr_name] = attr_val        
+            gtG.vertex_properties[attr_name] = attr_val
 
         attrs = {}
         edge_property_assertion = defaultdict(set)
@@ -218,7 +218,7 @@ class InterGraph:
                 attrs[key][edge] = val
 
         for attr_key, attr_val in attrs.items():
-            gtG.edge_properties[attr_key] = attr_val 
+            gtG.edge_properties[attr_key] = attr_val
 
         return gtG
 
