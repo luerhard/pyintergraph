@@ -10,11 +10,9 @@ def test_igraph2nx_raises(wrong_input):
     with pytest.raises(TypeError):
         g = pyintergraph.igraph2nx(wrong_input)
 
-
 def test_igraph2gt_raises(wrong_input):
     with pytest.raises(TypeError):
         g = pyintergraph.igraph2gt(wrong_input)
-
         
 def test_gt2nx_raises(wrong_input):
     with pytest.raises(TypeError):
