@@ -119,8 +119,11 @@ class InterGraph:
 
         node_labels = {}
         for node, node_attrs in zip(nodes, node_attributes):
-            node_labels[node] = node_attrs["name"]
-            del node_attrs["name"] 
+            if hasattr(node_attrs, "name"):
+                node_labels[node] = node_attrs["name"]
+                del node_attrs["name"]
+            else:
+                node_labels[node] = node 
         
         return cls(list(nodes), node_labels, node_attributes, list(edges), edge_attributes, is_directed)
 
