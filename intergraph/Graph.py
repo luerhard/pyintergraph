@@ -119,7 +119,7 @@ class InterGraph:
 
         node_labels = {}
         for node, node_attrs in zip(nodes, node_attributes):
-            if hasattr(node_attrs, "name"):
+            if "name" in node_attrs:
                 node_labels[node] = node_attrs["name"]
                 del node_attrs["name"]
             else:

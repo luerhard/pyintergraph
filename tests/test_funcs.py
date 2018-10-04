@@ -53,7 +53,7 @@ def test_nx2gt_without_labels(nx_graph):
 def test_igraph2nx(ig_graph):
     nx_graph = pyintergraph.igraph2nx(ig_graph)
 
-    if hasattr(ig_graph.vs, "name"):
+    if "name" in ig_graph.vertex_attributes():
         nodemap = {v.index: v["name"] for v in ig_graph.vs()}
         assert list(nx_graph.nodes()) == [v["name"] for v in ig_graph.vs()]
     else:
@@ -69,7 +69,7 @@ def test_igraph2nx(ig_graph):
 def test_igraph2gt(ig_graph):
     gt_graph = pyintergraph.igraph2gt(ig_graph, labelname="node_label")
 
-    if hasattr(ig_graph.vs, "name"):
+    if "name" in ig_graph.vertex_attributes():
         assert [v["name"] for v in ig_graph.vs()] == list(gt_graph.vp["node_label"])
     else:
         assert [v.index for v in ig_graph.vs()] == list(gt_graph.vp["node_label"])
