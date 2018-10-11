@@ -1,4 +1,6 @@
 # pyintergraph
+[![Build Status](https://semaphoreci.com/api/v1/luerhard/pyintergraph/branches/master/shields_badge.svg)](https://semaphoreci.com/luerhard/pyintergraph)
+
 Exchange Python-Graph-Objects between networkx, igraph and graph-tools
 
 # Usage
@@ -20,7 +22,7 @@ reversed_nx_graph = pyintergraph.igraph2nx(igraph_graph)
 
 list(nx_graph.nodes(data=True)) == list(reversed_nx_graph.nodes(data=True))
 -> True
-list(nx_graph.nodes(data=True)) == list(reversed_nx_graph.nodes(data=True))
+list(nx_graph.edges(data=True)) == list(reversed_nx_graph.edges(data=True))
 -> True
 type(nx_graph) == type(reversed_nx_graph)
 -> True
