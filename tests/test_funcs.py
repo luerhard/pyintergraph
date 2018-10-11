@@ -2,9 +2,9 @@ import pytest
 
 import pyintergraph
 
-from tests.testdata.networkxdata import nx_test_graphs
-from tests.testdata.igraphdata import igraph_test_graphs
-from tests.testdata.gtdata import gt_test_graphs
+from testdata.networkxdata import nx_test_graphs
+from testdata.igraphdata import igraph_test_graphs
+from testdata.gtdata import gt_test_graphs
 
 #Tests
 @pytest.mark.nx
