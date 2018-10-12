@@ -1,6 +1,6 @@
 # pyintergraph
 [![pipeline status](https://gitlab.com/luerhard/pyintergraph/badges/master/pipeline.svg)](https://gitlab.com/luerhard/pyintergraph/commits/master)
-[![Coverage report](https://gitlab.com/luerhard/pyintergraph/badges/master/coverage.svg?job=coverage)](http://gitlab.com/luerhard/pyintergraph)
+[![coverage report](https://gitlab.com/luerhard/pyintergraph/badges/master/coverage.svg)](https://gitlab.com/luerhard/pyintergraph/commits/master)
 
 Exchange Python-Graph-Objects between networkx, igraph and graph-tools
 
