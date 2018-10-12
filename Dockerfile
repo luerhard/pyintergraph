@@ -35,7 +35,6 @@ RUN pip3.7 install -U networkx python-igraph matplotlib pytest scipy numpy
 
 RUN ln -s /usr/lib/python3/dist-packages/graph_tool/ /usr/local/lib/python3.7/site-packages
 
-RUN apt-get -y remove python3-numpy
 RUN apt-get clean
 
 
