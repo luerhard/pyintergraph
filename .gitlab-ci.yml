@@ -1,4 +1,4 @@
-image: luerhard/pyintergraph:latest
+image: registry.gitlab.com/luerhard/pyintergraph
 
 job1:
   script: "python setup.py install; pytest"
