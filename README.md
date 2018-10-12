@@ -1,5 +1,5 @@
 # pyintergraph
-[![Build Status](https://semaphoreci.com/api/v1/luerhard/pyintergraph/branches/master/shields_badge.svg)](https://semaphoreci.com/luerhard/pyintergraph)
+This Project moved to Gitlab under [https://gitlab.com/luerhard/pyintergraph](https://gitlab.com/luerhard/pyintergraph)
 
 Exchange Python-Graph-Objects between networkx, igraph and graph-tools
 
