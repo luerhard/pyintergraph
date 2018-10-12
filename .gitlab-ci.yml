@@ -1,0 +1,4 @@
+image: luerhard/pyintergraph
+
+job1:
+  script: "python setup.py install; pytest"
