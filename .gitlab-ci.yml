@@ -1,4 +1,4 @@
 image: registry.gitlab.com/luerhard/pyintergraph
 
 job1:
-  script: "python3.7 setup.py install; pytest"
+  script: "python3.7 setup.py install;python3.7 -m pytest"
