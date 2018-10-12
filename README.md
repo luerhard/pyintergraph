@@ -16,16 +16,16 @@ graph_tool_graph = pyintergraph.nx2gt(nx_graph, labelname="node_label")
 igraph_graph = pyintergraph.gt2igraph(graph_tool_graph, labelname="node_label")
 reversed_nx_graph = pyintergraph.igraph2nx(igraph_graph)
 
-assert list(nx_graph.nodes(data=True)) == list(reversed_nx_graph.nodes(data=True))
-assert list(nx_graph.edges(data=True)) == list(reversed_nx_graph.edges(data=True))
-assert type(nx_graph) == type(reversed_nx_graph)
-
 # or
 
 Graph = pytintergraph.InterGraph.from_networkX(nx_graph)
 graph_tool_graph = Graph.to_graph_tool(labelname="node_label")
 igraph_graph = Graph.to_igraph()
 reversed_nx_graph = Graph.to_networkX()
+
+assert list(nx_graph.nodes(data=True)) == list(reversed_nx_graph.nodes(data=True))
+assert list(nx_graph.edges(data=True)) == list(reversed_nx_graph.edges(data=True))
+assert type(nx_graph) == type(reversed_nx_graph)
 
 ```
 
