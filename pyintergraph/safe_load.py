@@ -23,8 +23,8 @@ def boost_python_dlopen_flags():
         import DLFCN
         flags = DLFCN.RTLD_NOW | DLFCN.RTLD_GLOBAL
     except:
-        import warnings
-        warnings.warn('Do not know which dlopen flags to set.')
+        import os
+        flags = os.RTLD_NOW | os.RTLD_GLOBAL
     if None != flags:
         with preserve_dlopenflags(flags):
             yield

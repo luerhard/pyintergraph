@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 from .infer import infer_type
+from .safe_load import boost_python_dlopen_flags
 
 class InterGraph:
     """This defines a interchangeable format that can be read in by the 'from_'-classmethods
@@ -54,7 +55,8 @@ class InterGraph:
         :returns:
             Graph object
         """
-        from graph_tool import Graph
+        with boost_python_dlopen_flags():
+            from graph_tool import Graph
 
         if not isinstance(gtG, Graph):
             raise TypeError("gtG must be an instance of graph_tool.Graph() !")
@@ -171,7 +173,8 @@ class InterGraph:
                 if node labels should be kept as vertex attribute,
                 the name for the vertex attribute can be specified this way.
         """
-        import graph_tool.all as gt
+        with boost_python_dlopen_flags():
+            import graph_tool.all as gt
 
         gtG = gt.Graph(directed=self.is_directed)
 
