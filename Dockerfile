@@ -31,7 +31,7 @@ RUN echo "alias python=python3.7" | tee -a /root/.bashrc
 RUN echo "alias pip=pip3.7" | tee -a /root/.bashrc
 
 # Installing python packages 
-RUN pip3.7 install -U networkx python-igraph matplotlib pytest scipy numpy
+RUN pip3.7 install -U networkx python-igraph matplotlib pytest scipy numpy pytest-cov
 
 RUN ln -s /usr/lib/python3/dist-packages/graph_tool/ /usr/local/lib/python3.7/site-packages
 
