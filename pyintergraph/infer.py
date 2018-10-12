@@ -34,6 +34,3 @@ def infer_type(value):
             return "object"
     else:
         return get_c_type(value)
-
-print("start")
-print(infer_type(dict(test=2, test2=3)))
