@@ -1,5 +1,5 @@
 # pyintergraph
-[![pipeline status](https://gitlab.com/user/userproject/badges/master/pipeline.svg)](https://gitlab.com/user/userproject/commits/master)
+[![pipeline status](https://gitlab.com/luerhard/pyintergraph/badges/master/pipeline.svg)](https://gitlab.com/luerhard/pyintergraph/commits/master)
 
 Exchange Python-Graph-Objects between networkx, igraph and graph-tools
 
