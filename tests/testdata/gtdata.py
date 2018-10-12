@@ -1,5 +1,8 @@
-import graph_tool
-from graph_tool import generation
+from pyintergraph.safe_load import boost_python_dlopen_flags
+
+with boost_python_dlopen_flags():
+    import graph_tool
+    from graph_tool import generation
 import random
 
 def gt_star(directed):
