@@ -1,4 +1,4 @@
-image: luerhard/pyintergraph
+image: luerhard/pyintergraph:latest
 
 job1:
   script: "python setup.py install; pytest"
