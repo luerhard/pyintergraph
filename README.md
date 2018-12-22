@@ -1,6 +1,13 @@
 # pyintergraph
 
-Exchange Python-Graph-Objects between networkx, igraph and graph-tools
+Exchange Python-Graph-Objects between networkx, python-igraph and graph-tools. 
+
+# Installation 
+This package can be installed via:
+```
+pip install pyintergraph
+```
+For the note on imports and dependencies, see the section at the bottom of the page. 
 
 # Usage
 
@@ -27,6 +34,19 @@ assert type(nx_graph) == type(reversed_nx_graph)
 
 ```
 
-# A note on imports
+# Versions and dependencies
+This package ist built and tested with the following configuration:
+- python 3.7
+- networkX 2.2
+- python-igraph 0.7.1
+- graph_tool 2.27
 
-As not everyone has all three packages installed, imports happen just when the two functions of interest are called. So it is possible to convert networkX-Graphs to igraph-Graphs even when graph_tool is not installed.
+## A note on imports and dependencies
+
+Because the installation of python-igraph and graph_tool can be tricky, they are not set as required dependencies for this package. As not everyone has all three packages installed, imports happen just when the two functions of interest are called. That way it is possible to convert networkX-Graphs to igraph-Graphs even when graph_tool is not installed.
+
+## Docker container
+
+If any problems with the installation of python-igraph oder graph_tool arise, the Docker-Container which is used for testing hier can be used: [registry.gitlab.com/luerhard/pyintergraph](https://gitlab.com/luerhard/pyintergraph/container_registry). 
+
+This ubuntu:xenial container contains a fully working installation of python 3.7 and three network-libraries that can be converted with this tool. A Dockerfile to rebuild this image can be found in the pacakge-repository on [gitlab.com/luerhard/pyintergraph](https://gitlab.com/luerhard/pyintergraph)
