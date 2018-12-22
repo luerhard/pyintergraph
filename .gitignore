@@ -4,3 +4,4 @@ pyintergraph.egg-info/**
 build/**
 dist/**
 .coverage
+.vscode/**

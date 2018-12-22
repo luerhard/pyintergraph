@@ -159,7 +159,7 @@ class InterGraph:
 
         for edge, edge_attr in zip(self.edges, self.edge_attributes):
             u, v = edge
-            nxG.add_edge(self.node_labels[u], self.node_labels[v])
+            nxG.add_edge(self.node_labels[u], self.node_labels[v], **edge_attr)
                         
         return nxG
 
