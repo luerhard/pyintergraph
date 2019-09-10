@@ -13,7 +13,7 @@ setup(
     version="1.0",
     author="Lukas Erhard",
     author_email="luerhard@googlemail.com",
-    description=("Exchange Python-Graph-Objects between networkx, igraph and graph-tools"),
+    description=("Convert Python-Graph-Objects between networkx, igraph and graph-tools"),
     license="MIT",
     url="https://gitlab.com/luerhard/pyintergraph/-/archive/v1.0/pyintergraph-v1.0.tar.gz",
     keywords="networkx python-igraph igraph graph_tool intergraph convert graph network",
