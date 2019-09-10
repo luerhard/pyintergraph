@@ -1,5 +1,5 @@
 image: registry.gitlab.com/luerhard/pyintergraph
 
 job1:
-  script: "python3.7 setup.py install;python3.7 -m pytest --cov=pyintergraph tests/"
+  script: "python setup.py install;python -m pytest --cov=pyintergraph tests/"
   coverage: /TOTAL\s+\d+\s+\d+\s+(\d+)%/

@@ -23,7 +23,7 @@ reversed_nx_graph = pyintergraph.igraph2nx(igraph_graph)
 
 # or
 
-Graph = pytintergraph.InterGraph.from_networkX(nx_graph)
+Graph = pyintergraph.InterGraph.from_networkX(nx_graph)
 graph_tool_graph = Graph.to_graph_tool(labelname="node_label")
 igraph_graph = Graph.to_igraph()
 reversed_nx_graph = Graph.to_networkX()
@@ -36,10 +36,10 @@ assert type(nx_graph) == type(reversed_nx_graph)
 
 # Versions and dependencies
 This package ist built and tested with the following configuration:
-- python 3.7
-- networkX 2.2
+- python 3.7.3
+- networkX 2.3
 - python-igraph 0.7.1
-- graph_tool 2.27
+- graph_tool 2.29
 
 ## A note on imports and dependencies
 
