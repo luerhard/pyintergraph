@@ -10,15 +10,16 @@ def read(fname):
 
 setup(
     name="pyintergraph", 
-    version="1.0",
+    version="1.1.2",
     author="Lukas Erhard",
     author_email="luerhard@googlemail.com",
     description=("Convert Python-Graph-Objects between networkx, igraph and graph-tools"),
     license="MIT",
-    url="https://gitlab.com/luerhard/pyintergraph/-/archive/v1.0/pyintergraph-v1.0.tar.gz",
+    url="https://gitlab.com/luerhard/pyintergraph",
     keywords="networkx python-igraph igraph graph_tool intergraph convert graph network",
-    packages=find_packages(),
     long_description=read("README.md"),
+    long_description_content_type="text/markdown",
+    packages=find_packages(),
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3.7",
