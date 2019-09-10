@@ -114,8 +114,18 @@ class InterGraph:
             raise TypeError("iG must be instance of igraph.Graph() !")
 
         is_directed = iG.is_directed()
-        edges, edge_attributes = zip(*((e.tuple, e.attributes()) for e in iG.es()))
-        nodes, node_attributes = zip(*((n.index, n.attributes()) for n in iG.vs()))
+        
+        # check if edges are present
+        try: 
+            edges, edge_attributes = zip(*((e.tuple, e.attributes()) for e in iG.es()))
+        except ValueError:
+            edges, edge_attributes = [], ()
+        
+        # check if nodes are present
+        try:
+            nodes, node_attributes = zip(*((n.index, n.attributes()) for n in iG.vs()))
+        except Exception:
+            nodes, node_attributes = [], ()
 
         node_labels = {}
         for node, node_attrs in zip(nodes, node_attributes):
