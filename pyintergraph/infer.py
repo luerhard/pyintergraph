@@ -1,4 +1,5 @@
 import collections
+import numbers 
 
 def infer_type(value):
 
@@ -14,6 +15,8 @@ def infer_type(value):
         elif isinstance(v, int) or v == int:
             return "int"
         elif isinstance(v, float) or v == float:
+            return "float"
+        elif issubclass(v, numbers.Number):
             return "float"
         else:
             raise Exception("Non supported Type in Attributes!")

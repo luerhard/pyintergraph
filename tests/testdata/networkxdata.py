@@ -24,6 +24,20 @@ def named_graph(directed, multigraph):
         v = random.choice(list(g.nodes()))
         g.add_edge(u,v)
     return g
+
+
+def nxg_dict_node_attributes(directed):
+    if directed:
+        g = nx.DiGraph()
+    else:
+        g = nx.Graph()
+
+    for i in range(1,5):
+        g.add_node(i, **{"my_number_minus_one": i-1})
+    
+    g.add_edges_from([(1,2), (4,3), (2,1), (3,2)])
+
+    return g
     
 
 def nx_test_graphs():
@@ -35,3 +49,5 @@ def nx_test_graphs():
     yield named_graph(directed=False, multigraph=True)
     yield named_graph(directed=True, multigraph=False)
     yield named_graph(directed=True, multigraph=True)
+    yield nxg_dict_node_attributes(directed=True)
+    yield nxg_dict_node_attributes(directed=False)

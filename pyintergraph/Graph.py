@@ -1,5 +1,5 @@
 from collections import defaultdict
-
+import numbers
 from .infer import infer_type
 
 class InterGraph:
@@ -15,6 +15,7 @@ class InterGraph:
         self.edge_attributes = edge_attributes
 
         self.is_directed = is_directed
+        self.use_labels = True
 
     @classmethod
     def from_networkX(cls, nxG):
@@ -124,7 +125,7 @@ class InterGraph:
         # check if nodes are present
         try:
             nodes, node_attributes = zip(*((n.index, n.attributes()) for n in iG.vs()))
-        except Exception:
+        except ValueError:
             nodes, node_attributes = [], ()
 
         node_labels = {}
@@ -245,12 +246,25 @@ class InterGraph:
 
         iG = ig.Graph(directed=self.is_directed)
 
+        use_labels = True
+        label_type = type(next(iter(self.node_labels)))
+        if issubclass(label_type, numbers.Number):
+            use_labels = False
          
-        for node, attr in zip(self.nodes, self.node_attributes):
-            iG.add_vertex(self.node_labels[node], **attr)
+        for i, (node, attr) in enumerate(zip(self.nodes, self.node_attributes)):
+            if use_labels is True:
+                iG.add_vertex(self.node_labels[node], **attr)
+            else:
+                iG.add_vertex()
+                iG.vs[i].update_attributes(name=self.node_labels[node], **attr)
         
         for edge, attr in zip(self.edges, self.edge_attributes):
             u,v = edge
-            iG.add_edge(self.node_labels[u], self.node_labels[v], **attr)
-       
+            #Handle for weird 'name' or 'Vertex-ID' input in igraph
+            if use_labels is True:
+                u =  self.node_labels[u]
+                v =  self.node_labels[v]
+
+            iG.add_edge(u, v, **attr)
+
         return iG
