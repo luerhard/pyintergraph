@@ -9,8 +9,8 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(
-    name="pyintergraph", 
-    version="1.1.2",
+    name="pyintergraph",
+    version="1.2.0",
     author="Lukas Erhard",
     author_email="luerhard@googlemail.com",
     description=("Convert Python-Graph-Objects between networkx, igraph and graph-tools"),
