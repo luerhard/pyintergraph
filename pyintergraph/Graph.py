@@ -2,10 +2,12 @@ from collections import defaultdict
 import numbers
 from .infer import infer_type
 
+
 class InterGraph:
     """This defines a interchangeable format that can be read in by the 'from_'-classmethods
         and convert the interchangeable format the package formats with the 'to_'-methods
     """
+
     def __init__(self, nodes, node_labels, node_attributes, edges, edge_attributes, is_directed):
         self.nodes = nodes
         self.node_labels = node_labels
@@ -18,7 +20,7 @@ class InterGraph:
         self.use_labels = True
 
     @classmethod
-    def from_networkX(cls, nxG):
+    def from_networkx(cls, nxG):
         """Converts networkX Graph to Graph object
 
         :params:
@@ -30,15 +32,25 @@ class InterGraph:
 
         if not isinstance(nxG, nx.Graph):
             raise TypeError("nxG must be instance of nx.Graph oder subclasses thereof!")
-        
+
         is_directed = nxG.is_directed()
 
-        nodes = list(range(nx.number_of_nodes(nxG)))
-        node_labels, node_attributes = zip(*nxG.nodes(data=True))
-        node_labels = {node: label for node, label in zip(nodes, node_labels)}
+        try:
+            next(iter(nxG.nodes))
+            nodes = list(range(nx.number_of_nodes(nxG)))
+            node_labels, node_attributes = zip(*nxG.nodes(data=True))
+            node_labels = {node: label for node, label in zip(nodes, node_labels)}
+        except StopIteration:
+            nodes = []
+            node_labels, node_attributes = {}, []
 
         label_map = {label: node for node, label in node_labels.items()}
-        u_s, v_s, edge_attributes = zip(*nxG.edges(data=True))
+        try:
+            next(iter(nxG.edges()))
+            u_s, v_s, edge_attributes = zip(*nxG.edges(data=True))
+        except StopIteration:
+            u_s, v_s, edge_attributes = [], [], []
+
         edges = [(label_map[u], label_map[v]) for u, v in zip(u_s, v_s)]
 
         return cls(nodes, node_labels, node_attributes, edges, edge_attributes, is_directed)
@@ -64,26 +76,38 @@ class InterGraph:
 
         def create_nodes(g):
             for v in g.vertices():
-                attrs = {attr: g.vertex_properties[attr][v] \
-                    for attr in g.vertex_properties.keys() \
-                    if not attr == labelname}
+                attrs = {attr: g.vertex_properties[attr][v]
+                         for attr in g.vertex_properties.keys()
+                         if not attr == labelname}
                 yield (v, attrs)
 
         def create_edges(g):
             for e in g.edges():
-                attrs = {attr: g.edge_properties[attr][e] \
-                    for attr in g.edge_properties.keys() \
-                    if not attr == labelname}
+                attrs = {attr: g.edge_properties[attr][e]
+                         for attr in g.edge_properties.keys()
+                         if not attr == labelname}
                 yield ((e.source(), e.target()), attrs)
 
-        gt_edges, edge_attributes = zip(*create_edges(gtG))
-        gt_nodes, node_attributes = zip(*create_nodes(gtG))
+        try:
+            next(gtG.edges())
+            gt_edges, edge_attributes = zip(*create_edges(gtG))
+        except StopIteration:
+            gt_edges, edge_attributes = [], []
+        
+        try:
+            next(gtG.vertices())
+            gt_nodes, node_attributes = zip(*create_nodes(gtG))
+        except StopIteration:
+            gt_nodes, node_attributes = [], []
 
-        #create name-map for nodes
+        if len(gt_nodes) == 0:
+            return cls([], [], {}, [], [], is_directed)
+
+        # create name-map for nodes
         nodemap = {v: i for v, i in zip(gtG.vertices(), gtG.get_vertices())}
         if labelname:
-            node_labels = {v: label for v, label in \
-                zip(gtG.get_vertices(), gtG.vertex_properties[labelname])}
+            node_labels = {v: label for v, label in
+                           zip(gtG.get_vertices(), gtG.vertex_properties[labelname])}
             nodes = list(node_labels.keys())
         else:
             node_labels = {i: i for i in gtG.get_vertices()}
@@ -95,16 +119,15 @@ class InterGraph:
                 u = nodemap[u]
                 v = nodemap[v]
                 if node_labels[u] < node_labels[v]:
-                    edges.append((u,v))
+                    edges.append((u, v))
                 else:
-                    edges.append((v,u))
+                    edges.append((v, u))
             edges = sorted(edges)
         else:
             edges = [(nodemap[u], nodemap[v]) for u, v in gt_edges]
-        
+
         return cls(nodes, node_labels, node_attributes, edges, edge_attributes, is_directed)
 
-    
     @classmethod
     def from_igraph(cls, iG):
         import igraph
@@ -115,13 +138,13 @@ class InterGraph:
             raise TypeError("iG must be instance of igraph.Graph() !")
 
         is_directed = iG.is_directed()
-        
+
         # check if edges are present
-        try: 
+        try:
             edges, edge_attributes = zip(*((e.tuple, e.attributes()) for e in iG.es()))
         except ValueError:
             edges, edge_attributes = [], ()
-        
+
         # check if nodes are present
         try:
             nodes, node_attributes = zip(*((n.index, n.attributes()) for n in iG.vs()))
@@ -134,12 +157,11 @@ class InterGraph:
                 node_labels[node] = node_attrs["name"]
                 del node_attrs["name"]
             else:
-                node_labels[node] = node 
+                node_labels[node] = node
 
-        
         return cls(list(nodes), node_labels, node_attributes, list(edges), edge_attributes, is_directed)
 
-    def to_networkX(self):
+    def to_networkx(self):
         """
         Converts Graph object to networkX Graph.
 
@@ -147,16 +169,16 @@ class InterGraph:
             use_labels:bool, defaults to true
                 choose whether to use labels or indices as names for the nodes.
                 if no specific labels were read in, these to are equal.
-               
+
         :returns:
             networkX Graph, DiGraph, MultiGraph or MultiDiGraph
         """
         import networkx as nx
-                
-        #is multi?
+
+        # is multi?
         is_multigraph = len(self.edges) > len(set(self.edges))
-        
-        #select appropriate networkX-Graph-Type
+
+        # select appropriate networkX-Graph-Type
         if self.is_directed and not is_multigraph:
             nxG = nx.DiGraph()
         elif not self.is_directed and not is_multigraph:
@@ -171,7 +193,7 @@ class InterGraph:
         for edge, edge_attr in zip(self.edges, self.edge_attributes):
             u, v = edge
             nxG.add_edge(self.node_labels[u], self.node_labels[v], **edge_attr)
-                        
+
         return nxG
 
     def to_graph_tool(self, labelname=None):
@@ -186,9 +208,12 @@ class InterGraph:
 
         gtG = gt.Graph(directed=self.is_directed)
 
+        if len(self.nodes) == 0:
+            return gtG
+
         attrs = {}
-        node_type = infer_type(self.node_labels.values())
-        
+        node_type = infer_type(next(iter(self.node_labels.values())))
+
         if labelname:
             attrs[labelname] = gtG.new_vertex_property(node_type)
 
@@ -204,7 +229,7 @@ class InterGraph:
 
             for key, val in data.items():
 
-                #Single Type assertion
+                # Single Type assertion
                 node_property_type_assertion[key].add(type(val))
                 if len(node_property_type_assertion[key]) > 1:
                     raise Exception(f"Type not equal for all nodes on Node-Attribute {key}, \
@@ -212,9 +237,9 @@ class InterGraph:
 
                 if key not in attrs:
                     attrs[key] = gtG.new_vertex_property(infer_type(val))
-                
+
                 attrs[key][v] = val
-                
+
         for attr_name, attr_val in attrs.items():
             gtG.vertex_properties[attr_name] = attr_val
 
@@ -224,16 +249,16 @@ class InterGraph:
             u, v = e
             edge = gtG.add_edge(nodes[u], nodes[v])
             for key, val in data.items():
-                
-                #Single Type assertion
+
+                # Single Type assertion
                 edge_property_assertion[key].add(type(val))
                 if len(edge_property_assertion[key]) > 1:
                     raise Exception(f"Type not equal for all edges on Edge-Attribute {key}, \
                         types found: {edge_property_assertion[key]}")
-                
+
                 if key not in attrs:
                     attrs[key] = gtG.new_edge_property(infer_type(val))
-                
+
                 attrs[key][edge] = val
 
         for attr_key, attr_val in attrs.items():
@@ -247,23 +272,28 @@ class InterGraph:
         iG = ig.Graph(directed=self.is_directed)
 
         use_labels = True
-        label_type = type(next(iter(self.node_labels)))
+
+        try:
+            label_type = type(next(iter(self.node_labels)))
+        except StopIteration:
+            return iG
+
         if issubclass(label_type, numbers.Number):
             use_labels = False
-         
+
         for i, (node, attr) in enumerate(zip(self.nodes, self.node_attributes)):
             if use_labels is True:
                 iG.add_vertex(self.node_labels[node], **attr)
             else:
                 iG.add_vertex()
                 iG.vs[i].update_attributes(name=self.node_labels[node], **attr)
-        
+
         for edge, attr in zip(self.edges, self.edge_attributes):
-            u,v = edge
-            #Handle for weird 'name' or 'Vertex-ID' input in igraph
+            u, v = edge
+            # Handle for weird 'name' or 'Vertex-ID' input in igraph
             if use_labels is True:
-                u =  self.node_labels[u]
-                v =  self.node_labels[v]
+                u = self.node_labels[u]
+                v = self.node_labels[v]
 
             iG.add_edge(u, v, **attr)
 

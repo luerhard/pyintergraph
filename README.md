@@ -35,9 +35,9 @@ assert type(nx_graph) == type(reversed_nx_graph)
 
 # Versions and dependencies
 This package ist built and tested with the following configuration:
-- python 3.7.3
-- networkX 2.3
-- igraph 0.7.1
+- python 3.7.6
+- networkX 2.4
+- igraph 0.8.0
 - graph_tool 2.29
 
 ## A note on imports and dependencies

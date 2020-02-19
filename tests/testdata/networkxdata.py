@@ -38,7 +38,42 @@ def nxg_dict_node_attributes(directed):
     g.add_edges_from([(1,2), (4,3), (2,1), (3,2)])
 
     return g
-    
+
+def nxg_without_edges(directed):
+    g = nx.Graph()
+    g.add_node(1)
+    g.add_node(12)
+
+    return g
+
+def nxg_list_attributes(directed):
+    if directed:
+        g = nx.DiGraph()
+    else:
+        g = nx.Graph()
+
+    for i in range(1,5):
+        for j in range(i):
+            g.add_node(i, **{"attr_list": [1 for _ in range(j)]})
+
+    g.add_edges_from([(1, 2), (4, 3), (2, 1), (3, 2)])
+
+    return g
+
+def nx_empty_graph():
+    return nx.Graph()
+
+
+def nx_single__vector_float_attr():
+    g = nx.Graph()
+    g.add_node(1, attr=[1.322])
+    return g
+
+def nx_single_vector_str_attr():
+    g = nx.Graph()
+    g.add_node(1, attr=["attribute"])
+    return g
+
 
 def nx_test_graphs():
     yield nxg_gnp_random(directed=True)
@@ -51,3 +86,8 @@ def nx_test_graphs():
     yield named_graph(directed=True, multigraph=True)
     yield nxg_dict_node_attributes(directed=True)
     yield nxg_dict_node_attributes(directed=False)
+    yield nxg_without_edges(directed=True)
+    yield nxg_without_edges(directed=True)
+    yield nx_empty_graph()
+    yield nx_single__vector_float_attr()
+    yield nx_single_vector_str_attr()

@@ -9,8 +9,8 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(
-    name="pyintergraph", 
-    version="1.1.2",
+    name="pyintergraph",
+    version="1.2.0",
     author="Lukas Erhard",
     author_email="luerhard@googlemail.com",
     description=("Convert Python-Graph-Objects between networkx, igraph and graph-tools"),
@@ -19,7 +19,14 @@ setup(
     keywords="networkx python-igraph igraph graph_tool intergraph convert graph network",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
-    packages=find_packages(),
+    packages=find_packages(exclude=["tests",
+                                    ".pytest_cache",
+                                    ".mypy_cache",
+                                    "environment.yml",
+                                    "coverage.xml",
+                                    "Dockerfile",
+                                    "pytest.ini",
+                                    "gitlab-ci.yml"]),
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3.7",
