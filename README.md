@@ -23,10 +23,10 @@ reversed_nx_graph = pyintergraph.igraph2nx(igraph_graph)
 
 # or
 
-Graph = pyintergraph.InterGraph.from_networkX(nx_graph)
+Graph = pyintergraph.InterGraph.from_networkx(nx_graph)
 graph_tool_graph = Graph.to_graph_tool(labelname="node_label")
 igraph_graph = Graph.to_igraph()
-reversed_nx_graph = Graph.to_networkX()
+reversed_nx_graph = Graph.to_networkx()
 
 assert list(nx_graph.nodes(data=True)) == list(reversed_nx_graph.nodes(data=True))
 assert list(nx_graph.edges(data=True)) == list(reversed_nx_graph.edges(data=True))
@@ -46,6 +46,6 @@ Because the installation of python-igraph and graph_tool can be tricky, they are
 
 ## Docker container
 
-If any problems with the installation of python-igraph oder graph_tool arise, the Docker-Container which is used for testing hier can be used: [registry.gitlab.com/luerhard/pyintergraph](https://gitlab.com/luerhard/pyintergraph/container_registry). 
+If any problems with the installation of python-igraph oder graph_tool arise, the Docker-Container, which is used for testing here, can be used: [registry.gitlab.com/luerhard/pyintergraph](https://gitlab.com/luerhard/pyintergraph/container_registry). 
 
-This arch container contains a fully working installation of python 3.7 and three network-libraries that can be converted with this tool. A Dockerfile to rebuild this image can be found in the pacakge-repository on [gitlab.com/luerhard/pyintergraph](https://gitlab.com/luerhard/pyintergraph)
+This arch container contains a fully working installation of python 3.7 and the three network-libraries which can be converted with this tool. A Dockerfile to rebuild this image can be found in the pacakge-repository on [gitlab.com/luerhard/pyintergraph](https://gitlab.com/luerhard/pyintergraph)
