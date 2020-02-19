@@ -212,7 +212,7 @@ class InterGraph:
             return gtG
 
         attrs = {}
-        node_type = infer_type(self.node_labels.values())
+        node_type = infer_type(next(iter(self.node_labels.values())))
 
         if labelname:
             attrs[labelname] = gtG.new_vertex_property(node_type)

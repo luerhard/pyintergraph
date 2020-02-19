@@ -1,12 +1,21 @@
 from collections import abc
 import numbers
 
+import pyintergraph
 
 def infer_type(value):
 
-    def is_primitive(val):
-        primitives = (int, bool, float, str)
-        return val in primitives
+    def get_vector_type(c_type):
+        if c_type == "int":
+            return "vector<int>"
+        elif c_type == "float":
+            return "vector<float>"
+        elif c_type == "string":
+            return "vector<string>"
+        elif c_type == "bool":
+            return "vector<uint8_t>"
+        else:
+            return "object"
 
     def get_c_type(v):
         if isinstance(v, str) or v == str:
@@ -23,18 +32,19 @@ def infer_type(value):
             raise Exception("Non supported Type in Attributes!")
 
     if isinstance(value, abc.Iterable):
-        if type(value) != dict:
-            if len(value) == 1:
-                return get_c_type(value)
-            elif len(value) > 1:
-                types = set(type(v) for v in value)
-                if len(types) == 1:
-                    return get_c_type(types.pop())
-                elif len(types) == 2 and types == set([float, int]):
-                    return "float"
-                else:
-                    return "string"
-        else:
+        if isinstance(value, str):
+            return "string"
+        if type(value) == dict:
             return "object"
-    else:
-        return get_c_type(value)
+
+        # check for types in Iterable
+        types = set(type(v) for v in value)
+        if len(types) == 1:
+            c_type = get_c_type(types.pop())
+            vector_type = get_vector_type(c_type)
+            return vector_type
+        else:
+            raise pyintergraph.PyIntergraphInferException(
+                    f"Multiple Types Found: {types}. graph_tool cannot handle that")
+
+    return get_c_type(value)

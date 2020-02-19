@@ -63,6 +63,18 @@ def nxg_list_attributes(directed):
 def nx_empty_graph():
     return nx.Graph()
 
+
+def nx_single__vector_float_attr():
+    g = nx.Graph()
+    g.add_node(1, attr=[1.322])
+    return g
+
+def nx_single_vector_str_attr():
+    g = nx.Graph()
+    g.add_node(1, attr=["attribute"])
+    return g
+
+
 def nx_test_graphs():
     yield nxg_gnp_random(directed=True)
     yield nxg_gnp_random(directed=False)
@@ -77,3 +89,5 @@ def nx_test_graphs():
     yield nxg_without_edges(directed=True)
     yield nxg_without_edges(directed=True)
     yield nx_empty_graph()
+    yield nx_single__vector_float_attr()
+    yield nx_single_vector_str_attr()
