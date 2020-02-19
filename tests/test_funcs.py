@@ -23,9 +23,15 @@ def test_nx2igraph_with_labels(nx_graph):
 @pytest.mark.parametrize("nx_graph", nx_test_graphs())
 def test_nx2gt(nx_graph):
     gt_graph = pyintergraph.nx2gt(nx_graph, labelname="node_label")
-    nodemap = {v: label for v, label in zip(gt_graph.vertices(), gt_graph.vp["node_label"])}
+    try:
+        next(gt_graph.vertices())
+        nodemap = {v: label for v, label in zip(gt_graph.vertices(), gt_graph.vp["node_label"])}
+        assert list(gt_graph.vp["node_label"]) == list(nx_graph.nodes())
+    except StopIteration:
+        nodemap = {}
+        assert list(nx_graph.nodes()) == []
 
-    assert list(gt_graph.vp["node_label"]) == list(nx_graph.nodes())
+
     if not nx_graph.is_directed():
         assert set([frozenset((nodemap[e.source()], nodemap[e.target()])) for e in gt_graph.edges()]) == \
                 set([frozenset(e) for e in nx_graph.edges()])
@@ -63,11 +69,18 @@ def test_igraph2nx(ig_graph):
     assert [e for e in nx_graph.edges()] == \
             [(nodemap[e.tuple[0]], nodemap[e.tuple[1]])  for e in ig_graph.es()]
 
+
 @pytest.mark.ig
 @pytest.mark.gt
 @pytest.mark.parametrize("ig_graph", igraph_test_graphs())
 def test_igraph2gt(ig_graph):
     gt_graph = pyintergraph.igraph2gt(ig_graph, labelname="node_label")
+    try:
+        next(gt_graph.vertices())
+    except StopIteration:
+        assert ig_graph.vcount() == len(list(gt_graph.vertices()))
+        assert ig_graph.ecount() == len(list(gt_graph.edges()))
+        return
 
     if "name" in ig_graph.vertex_attributes():
         assert [v["name"] for v in ig_graph.vs()] == list(gt_graph.vp["node_label"])

@@ -1,5 +1,6 @@
-import collections
-import numbers 
+from collections import abc
+import numbers
+
 
 def infer_type(value):
 
@@ -21,7 +22,7 @@ def infer_type(value):
         else:
             raise Exception("Non supported Type in Attributes!")
 
-    if isinstance(value, collections.Iterable):
+    if isinstance(value, abc.Iterable):
         if type(value) != dict:
             if len(value) == 1:
                 return get_c_type(value)
