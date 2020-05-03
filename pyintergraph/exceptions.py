@@ -5,3 +5,6 @@ class PyIntergraphInferException(Exception):
 
     def __str__(self):
         return self.msg
+
+class PyIntergraphCompatibilityException(Exception):
+    pass

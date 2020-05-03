@@ -1,3 +1,4 @@
+import networkx as nx
 import pytest
 
 import pyintergraph
@@ -32,3 +33,12 @@ def test_nx2gt_raises(wrong_input):
 def test_nx2igraph_raises(wrong_input):
     with pytest.raises(TypeError):
         g = pyintergraph.nx2igraph(wrong_input)
+
+
+def test_name_attr_igraph():
+    g = nx.Graph()
+    for i in range(5):
+        g.add_node(i, name=str(i))
+
+    with pytest.raises(pyintergraph.PyIntergraphCompatibilityException):
+        pyintergraph.nx2igraph(g)

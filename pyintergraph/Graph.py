@@ -1,7 +1,7 @@
 from collections import defaultdict
 import numbers
 from .infer import infer_type
-
+from .exceptions import PyIntergraphCompatibilityException
 
 class InterGraph:
     """This defines a interchangeable format that can be read in by the 'from_'-classmethods
@@ -93,7 +93,7 @@ class InterGraph:
             gt_edges, edge_attributes = zip(*create_edges(gtG))
         except StopIteration:
             gt_edges, edge_attributes = [], []
-        
+
         try:
             next(gtG.vertices())
             gt_nodes, node_attributes = zip(*create_nodes(gtG))
@@ -285,6 +285,9 @@ class InterGraph:
             if use_labels is True:
                 iG.add_vertex(self.node_labels[node], **attr)
             else:
+                if "name" in attr:
+                    raise PyIntergraphCompatibilityException("Your network seems to have 'name' as a node attribute."
+                    "This is a reserved keyword for node labels in python-igraph. You cannot use that !")
                 iG.add_vertex()
                 iG.vs[i].update_attributes(name=self.node_labels[node], **attr)
 
