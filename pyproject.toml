@@ -1,0 +1,33 @@
+ [build-system]
+requires = [
+    "flit_core >=2,<4",
+    "wheel",
+    "setuptools>=40.8.0"
+]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.metadata]
+module = "pyintergraph"
+author = "Lukas Erhard"
+author-email = "luerhard@googlemail.com"
+home-page = "https://gitlab.com/luerhard/pyintergraph"
+
+description-file="README.md"
+requires-python=">=3.6"
+license="MIT"
+classifiers = [
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Development Status :: 3 - Alpha",
+        "Topic :: Utilities",
+        "Intended Audience :: Science/Research",
+    ]
+
+[tool.flit.metadata.requires-extra]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "bumpversion",
+]
