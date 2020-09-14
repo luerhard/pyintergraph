@@ -10,7 +10,7 @@ def read(fname):
 
 setup(
     name="pyintergraph",
-    version="1.3.0",
+    version="1.3.1",
     author="Lukas Erhard",
     author_email="luerhard@googlemail.com",
     description=("Convert Python-Graph-Objects between networkx, igraph and graph-tools"),
