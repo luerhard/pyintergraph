@@ -1,6 +1,6 @@
-from collections import defaultdict
+from collections import defaultdict, abc
 import numbers
-from .infer import infer_type
+from .infer import infer_type, get_c_type
 from .exceptions import PyIntergraphCompatibilityException
 
 class InterGraph:
@@ -212,7 +212,7 @@ class InterGraph:
             return gtG
 
         attrs = {}
-        node_type = infer_type(next(iter(self.node_labels.values())))
+        node_type = infer_type(self.node_labels.values(), as_vector=False)
 
         if labelname:
             attrs[labelname] = gtG.new_vertex_property(node_type)
@@ -236,7 +236,8 @@ class InterGraph:
                         types found: {node_property_type_assertion[key]}")
 
                 if key not in attrs:
-                    attrs[key] = gtG.new_vertex_property(infer_type(val))
+                    as_vector = isinstance(val, abc.Iterable) and not isinstance(val, str)
+                    attrs[key] = gtG.new_vertex_property(infer_type(val, as_vector=as_vector))
 
                 attrs[key][v] = val
 

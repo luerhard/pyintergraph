@@ -6,4 +6,5 @@ dist/**
 .coverage
 .vscode/**
 **/.mypy_cache/**
+coverage.xml
 .coverage.xml
