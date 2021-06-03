@@ -6,4 +6,4 @@ from .exceptions import *
 
 USE_LONG_DOUBLE = False
 
-__version__ = "1.3.1"
+__version__ = "1.3.2"
