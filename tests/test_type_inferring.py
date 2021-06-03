@@ -8,12 +8,12 @@ try:
     import numpy as np
 
     def test_numpy_type():
-        assert infer_type(np.float(1.5), as_vector=False) == "double"
+        assert infer_type(float(1.5), as_vector=False) == "double"
 
 
     def test_numpy_type_long():
         pyintergraph.USE_LONG_DOUBLE = True
-        assert infer_type(np.float(1.5), as_vector=False) == "long double"
+        assert infer_type(float(1.5), as_vector=False) == "long double"
         pyintergraph.USE_LONG_DOUBLE = False
 except ImportError:
     pass
