@@ -60,6 +60,18 @@ def nxg_list_attributes(directed):
 
     return g
 
+def nx_int_attr(directed):
+    if directed:
+        g = nx.DiGraph()
+    else:
+        g = nx.Graph()
+
+    g.add_node(1, age=4)
+    g.add_node(2, age=10)
+    g.add_edge(1, 2, link=1)
+
+    return g
+
 def nx_empty_graph():
     return nx.Graph()
 
@@ -91,3 +103,6 @@ def nx_test_graphs():
     yield nx_empty_graph()
     yield nx_single__vector_float_attr()
     yield nx_single_vector_str_attr()
+    yield nx_int_attr(directed=True)
+    yield nx_int_attr(directed=False)
+    yield nx.les_miserables_graph()

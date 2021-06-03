@@ -258,7 +258,8 @@ class InterGraph:
                         types found: {edge_property_assertion[key]}")
 
                 if key not in attrs:
-                    attrs[key] = gtG.new_edge_property(infer_type(val))
+                    as_vector = isinstance(val, abc.Iterable) and not isinstance(val, str)
+                    attrs[key] = gtG.new_edge_property(infer_type(val, as_vector=as_vector))
 
                 attrs[key][edge] = val
 
