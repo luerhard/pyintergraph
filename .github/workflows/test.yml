@@ -5,12 +5,10 @@ on:
     branches:
       - main
       - dev
-      - use_poetry
-
 
 jobs:
   run_tests:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
