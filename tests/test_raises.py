@@ -42,3 +42,7 @@ def test_name_attr_igraph():
 
     with pytest.raises(pyintergraph.PyIntergraphCompatibilityException):
         pyintergraph.nx2igraph(g)
+
+
+def test_failing():
+    assert False
