@@ -17,17 +17,14 @@ jobs:
         with:
           set-safe-directory: "*"
           fetch-depth: 1
-      - name: install graph-tool
-        run: | 
-          echo "deb [trusted=yes] https://downloads.skewed.de/apt jammy main" | sudo tee /etc/apt/sources.list
-          sudo apt-get -o "Acquire::https::Verify-Peer=false" update
-          sudo apt-get install -y python3-graph-tool
-      - name: install poetry 
-        uses: Gr1N/setup-poetry@v8
-      - name: Create Environment
-        run: |
-          python3 -m venv --system-site-packages .venv
-          poetry env use .venv/bin/python
-          poetry install -E net
-      - name: Run Tests
-        run: poetry run pytest
+      - name: run in docker
+        uses: addnab/docker-run-action@v3
+        with:
+          image: tiagopeixoto/graph-tool
+          options: -v ${{ github.workspace }}:/wrk
+          run: |
+            pacman -S --noconfirm python-poetry
+            python -m venv --system-site-packages .venv
+            poetry env use .venv/bin/python
+            poetry install -E net
+            poetry run pytest
