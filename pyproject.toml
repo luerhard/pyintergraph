@@ -1,33 +1,33 @@
- [build-system]
-requires = [
-    "flit_core >=2,<4",
-    "wheel",
-    "setuptools>=40.8.0"
-]
-build-backend = "flit_core.buildapi"
-
-[tool.flit.metadata]
-module = "pyintergraph"
-author = "Lukas Erhard"
-author-email = "luerhard@googlemail.com"
-home-page = "https://gitlab.com/luerhard/pyintergraph"
-
-description-file="README.md"
-requires-python=">=3.6"
+[tool.poetry]
+name = "pyintergraph"
+version = "1.3.2"
+authors = ["Lukas Erhard <luerhard@googlemail.com>"]
+repository = "https://github.com/luerhard/pyintergraph"
+homepage = "https://github.com/luerhard/pyintergraph"
+description = "Convert Python-Graph-Objects between networkx, python-igraph and graph-tools."
+readme="README.md"
 license="MIT"
 classifiers = [
-        "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Development Status :: 3 - Alpha",
         "Topic :: Utilities",
         "Intended Audience :: Science/Research",
     ]
+packages = [{include = "pyintergraph"}]
 
-[tool.flit.metadata.requires-extra]
-dev = [
-    "pytest",
-    "pytest-cov",
-    "bumpversion",
-]
+[tool.poetry.dependencies]
+python = ">=3.8,<4.0"
+numpy = [{version = ">=1.26", python = ">=3.12"}, {version = ">=1.18", python = "<3.12"}]
+networkx = {version = ">=2.4", optional = true}
+python-igraph = {version = ">=0.8", optional = true}
+
+[tool.poetry.extras]
+networkx = ["networkx"]
+python-igraph = ["python-igraph"]
+net = ["networkx", "python-igraph"]
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=7"
+pytest-cov = ">=4"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -8,3 +8,5 @@ dist/**
 **/.mypy_cache/**
 coverage.xml
 .coverage.xml
+.python-version
+

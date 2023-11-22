@@ -1,0 +1,29 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  run_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          set-safe-directory: "*"
+          fetch-depth: 1
+      - name: run in docker
+        uses: addnab/docker-run-action@v3
+        with:
+          image: tiagopeixoto/graph-tool
+          options: -v ${{ github.workspace }}:/wrk
+          run: |
+            pacman -S --noconfirm python-poetry
+            cd /wrk
+            python -m venv --system-site-packages .venv
+            poetry env use .venv/bin/python
+            poetry install -E net
+            poetry run pytest
