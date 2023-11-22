@@ -24,6 +24,7 @@ jobs:
           options: -v ${{ github.workspace }}:/wrk
           run: |
             pacman -S --noconfirm python-poetry
+            cd /wrk
             python -m venv --system-site-packages .venv
             poetry env use .venv/bin/python
             poetry install -E net
