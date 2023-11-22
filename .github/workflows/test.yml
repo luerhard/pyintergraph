@@ -18,7 +18,7 @@ jobs:
           set-safe-directory: "*"
           fetch-depth: 1
       - name: install graph-tool
-        run: apt-get install -y python-graph-tool
+        run: sudo apt-get install -y python-graph-tool
       - name: install poetry 
         uses: Gr1N/setup-poetry@v8
       - name: Create Environment
