@@ -5,7 +5,7 @@ import igraph
 def ig_star(directed):
     g = igraph.Graph(directed=directed)
     for i in range(10):
-        g.add_vertex(i)
+        g.add_vertex(str(i))
         g.vs[i]["name"] = "node" + str(i)
     vertices = [v["name"] for v in g.vs()]
 
