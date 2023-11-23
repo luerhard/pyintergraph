@@ -1,8 +1,8 @@
 from collections import abc
-from functools import lru_cache
 import numbers
 
 import pyintergraph
+
 
 def get_c_type(v):
     if isinstance(v, str):
@@ -20,7 +20,8 @@ def get_c_type(v):
             return "int64_t"
         else:
             raise pyintergraph.PyIntergraphInferException(
-                "Value {v} does not fit in c++ datatypes of graph_tools !")
+                "Value {v} does not fit in c++ datatypes of graph_tools !"
+            )
     elif isinstance(v, float):
         if pyintergraph.USE_LONG_DOUBLE:
             return "long double"
@@ -32,11 +33,12 @@ def get_c_type(v):
         else:
             return "double"
     else:
-        raise pyintergraph.PyIntergraphInferException("Non supported Type in Attributes!")
+        raise pyintergraph.PyIntergraphInferException(
+            "Non supported Type in Attributes!"
+        )
 
 
 def get_best_fitting_type(c_types):
-
     if "object" in c_types:
         return "python::object"
     elif "string" in c_types:
@@ -56,23 +58,26 @@ def get_best_fitting_type(c_types):
         return "uint8_t"
 
 
-
-
 def infer_type(values, as_vector=True):
-
     # check for types in Iterable
-    if isinstance(values, abc.Iterable) and not isinstance(values, str) and not isinstance(values, dict):
+    if (
+        isinstance(values, abc.Iterable)
+        and not isinstance(values, str)
+        and not isinstance(values, dict)
+    ):
         c_types = {get_c_type(v) for v in values}
     else:
         c_types = get_c_type(values)
 
-    number_types =  ["long double", "double", "long", "int", "short", "bool"]
-    if any(t in number_types for t in c_types) and not all(t in number_types for t in c_types):
-        raise pyintergraph.PyIntergraphInferException("Cannot mix datatypes ! Found {}".format(c_types))
-    
+    number_types = ["long double", "double", "long", "int", "short", "bool"]
+    if any(t in number_types for t in c_types) and not all(
+        t in number_types for t in c_types
+    ):
+        raise pyintergraph.PyIntergraphInferException(
+            "Cannot mix datatypes ! Found {}".format(c_types)
+        )
+
     best_fit = get_best_fitting_type(c_types)
     if as_vector:
         return f"vector<{best_fit}>"
     return best_fit
-
-    

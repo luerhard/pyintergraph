@@ -1,15 +1,14 @@
-import random
-
 import graph_tool
 from graph_tool import generation
+
 
 def gt_star(directed):
     g = graph_tool.Graph(directed=directed)
     label_property = g.new_vertex_property("string")
-    for i in range(1,11):
+    for i in range(1, 11):
         v = g.add_vertex(1)
         label_property[v] = str(i)
-    
+
     g.vp["node_labels"] = label_property
     vertices = g.vertices()
     star_center = next(vertices)
@@ -17,6 +16,7 @@ def gt_star(directed):
         g.add_edge(star_center, j)
 
     return g
+
 
 def circular_graph(directed, with_labels):
     g = generation.circular_graph(25, 3, directed=directed)

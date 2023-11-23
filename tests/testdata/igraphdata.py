@@ -10,7 +10,7 @@ def ig_star(directed):
     vertices = [v["name"] for v in g.vs()]
 
     for i in vertices[1:]:
-        g.add_edge(i,0)
+        g.add_edge(i, 0)
     return g
 
 
@@ -21,6 +21,6 @@ def ig_empty_graph(directed):
 def igraph_test_graphs():
     yield ig_star(directed=False)
     yield ig_star(directed=True)
-    yield igraph.Graph.Tree(50,10)
+    yield igraph.Graph.Tree(50, 10)
     yield ig_empty_graph(directed=True)
     yield ig_empty_graph(directed=False)
