@@ -1,13 +1,13 @@
 # pyintergraph
 
-Convert Python-Graph-Objects between networkx, python-igraph and graph-tool. 
+Convert Python-Graph-Objects between networkx, python-igraph and graph-tool.
 
-# Installation 
+# Installation
 This package can be installed via:
 ```
 pip install pyintergraph
 ```
-For the note on imports and dependencies, see the section at the bottom of the page. 
+For the note on imports and dependencies, see the section at the bottom of the page.
 
 # Usage
 

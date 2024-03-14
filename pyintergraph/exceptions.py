@@ -1,4 +1,8 @@
-class PyIntergraphInferException(Exception):
+# noqa: D107
+"""Collection of all custom exceptions that can be thrown in this package."""
+
+
+class PyIntergraphInferError(Exception):
     def __init__(self, msg):
         self.msg = msg
 
@@ -6,5 +10,5 @@ class PyIntergraphInferException(Exception):
         return self.msg
 
 
-class PyIntergraphCompatibilityException(Exception):
+class PyIntergraphCompatibilityError(Exception):
     pass

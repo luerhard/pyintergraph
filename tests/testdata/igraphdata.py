@@ -1,6 +1,5 @@
 import igraph
 
-
 # igraph Graphs
 def ig_star(directed):
     g = igraph.Graph(directed=directed)

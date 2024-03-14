@@ -1,6 +1,7 @@
-import networkx as nx
-import string
 import random
+import string
+
+import networkx as nx
 
 random.seed(1)
 

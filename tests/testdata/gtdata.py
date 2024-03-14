@@ -1,7 +1,6 @@
 import graph_tool
 from graph_tool import generation
 
-
 def gt_star(directed):
     g = graph_tool.Graph(directed=directed)
     label_property = g.new_vertex_property("string")

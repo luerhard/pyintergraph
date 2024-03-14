@@ -71,6 +71,7 @@ lines-after-imports = 1
 "__init__.py" = ["E402"]
 "docs/**" = ["D"]
 "tests/**" = ["D", "F401"]
+"pyintergraph/exceptions.py" = ["D"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"

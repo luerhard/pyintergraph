@@ -17,8 +17,8 @@ def nx2gt(nx_graph, labelname=None):
     Returns:
         :class:`graph_tool.Graph`: Converted graph_tool graph.
     """
-    G = InterGraph.from_networkx(nx_graph)
-    return G.to_graph_tool(labelname=labelname)
+    inter_graph = InterGraph.from_networkx(nx_graph)
+    return inter_graph.to_graph_tool(labelname=labelname)
 
 
 def nx2igraph(nx_graph):
@@ -30,8 +30,8 @@ def nx2igraph(nx_graph):
     Returns:
         :class:`igraph.Graph`: Converted igraph graph.
     """
-    G = InterGraph.from_networkx(nx_graph)
-    return G.to_igraph()
+    inter_graph = InterGraph.from_networkx(nx_graph)
+    return inter_graph.to_igraph()
 
 
 def gt2nx(gt_graph, labelname=None):
@@ -46,8 +46,8 @@ def gt2nx(gt_graph, labelname=None):
     Returns:
         :class:`graph_tool.Graph`: Converted graph_tool graph.
     """
-    G = InterGraph.from_graph_tool(gt_graph, labelname=labelname)
-    return G.to_networkx()
+    inter_graph = InterGraph.from_graph_tool(gt_graph, labelname=labelname)
+    return inter_graph.to_networkx()
 
 
 def gt2igraph(gt_graph, labelname=None):
@@ -62,8 +62,8 @@ def gt2igraph(gt_graph, labelname=None):
     Returns:
         :class:`igraph.Graph`: Converted igraph graph.
     """
-    G = InterGraph.from_graph_tool(gt_graph, labelname=labelname)
-    return G.to_igraph()
+    inter_graph = InterGraph.from_graph_tool(gt_graph, labelname=labelname)
+    return inter_graph.to_igraph()
 
 
 def igraph2nx(igraph_graph):
@@ -75,8 +75,8 @@ def igraph2nx(igraph_graph):
     Returns:
          :class:`networkx.Graph`: Converted networkX graph.
     """
-    G = InterGraph.from_igraph(igraph_graph)
-    return G.to_networkx()
+    inter_graph = InterGraph.from_igraph(igraph_graph)
+    return inter_graph.to_networkx()
 
 
 def igraph2gt(igraph_graph, labelname=None):
@@ -91,5 +91,5 @@ def igraph2gt(igraph_graph, labelname=None):
     Returns:
         :class:`graph_tool.Graph`: Converted graph_tool graph.
     """
-    G = InterGraph.from_igraph(igraph_graph)
-    return G.to_graph_tool(labelname=labelname)
+    inter_graph = InterGraph.from_igraph(igraph_graph)
+    return inter_graph.to_graph_tool(labelname=labelname)
