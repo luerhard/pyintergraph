@@ -28,6 +28,53 @@ net = ["networkx", "python-igraph"]
 pytest = ">=7"
 pytest-cov = ">=4"
 
+[tool.poetry.group.docs.dependencies]
+ipython = ">=8.7.0"
+sphinx = ">=7.1.0"
+ipykernel = ">=6.17.1"
+ipywidgets = ">=8.0.2"
+sphinx-rtd-theme = ">=1.1.1"
+nbsphinx = ">=0.9.3"
+sphinx-autodoc-typehints = ">=1.24.0"
+
+[tool.ruff]
+fix = true
+include = ["*.py", "*.pyi", "**/pyproject.toml", "*.ipynb"]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+  "ARG", # flake8-unused-arguments
+  "B", # flake8-bugbear
+  "C4", #flake8-comprehensions
+  "COM", #flake8-commas
+  "D", # pydocstyle
+  "E", # pycodestyle
+  "EM", # flake8-errmsg
+  "F", # pyflakes
+  "I", # isort
+  "N", # pep8-naming
+  "PT", #flake8-pytest-style
+  "PTH", # flake8-use-pathlib
+  "Q", # flake8-quotes
+  "UP", # pyupgrade
+]
+ignore-init-module-imports = true
+
+[tool.ruff.lint.isort]
+force-single-line = true
+force-sort-within-sections = true
+lines-after-imports = 1
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402"]
+"docs/**" = ["D"]
+"tests/**" = ["D", "F401"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
 [tool.black]
 line-length = 100
 include = '\.pyi?$'

@@ -9,4 +9,6 @@ dist/**
 coverage.xml
 .coverage.xml
 .python-version
+.DS_Store
 
+docs/build
